@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { ensureAuthenticated } = require('../config/auth');
-
+const mongoose = require('mongoose');
+require('../models/User');
+const User = mongoose.model('User');
 
 
 //welcome Page
@@ -50,8 +52,18 @@ res.render('profileEditor', {
     email: req.user.email
 }));
 
+router.post('/', (req, res) => {
+        updateRecord(req, res);
+});
 
-
+function updateRecord(req, res) {
+    User.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true }, (err, doc) => {
+        if (!err) { res.redirect('/profile'); }
+        else {
+            console.log('Error during record update : ' + err);
+        }
+    });
+}
 
 
 
