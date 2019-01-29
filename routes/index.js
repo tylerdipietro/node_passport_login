@@ -57,8 +57,12 @@ router.post('/', (req, res) => {
 });
 
 function updateRecord(req, res) {
-    User.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true }, (err, doc) => {
-        if (!err) { res.redirect('/profile'); }
+    User.findOneAndUpdate({ _id: req.body._id }, req.user.name, { new: true }, (err, doc) => {
+        if (!err) { 
+            console.log(req.user.name);
+            console.log(User);
+            res.redirect('/profile'); 
+        }
         else {
             console.log('Error during record update : ' + err);
         }
