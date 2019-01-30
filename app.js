@@ -75,6 +75,6 @@ app.use('/profile', require('./routes/index'));
 app.use('/profileEditor', require('./routes/index'));
 app.use('/list', require('./routes/index'));
 
-const PORT = process.env.PORT || port;
+const PORT = process.env.PORT;
 
 app.listen(PORT,console.log(`Server started on port ${PORT}`));
