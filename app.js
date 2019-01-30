@@ -50,7 +50,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //CSS Middleware
-app.use(express.static(path.join(__dirname, 'views')));
+app.use(express.static(path.join(__dirname + '/views')));
 app.use(express.static(path.join(__dirname, '/public/css')));
 //connect flash
 app.use(flash());

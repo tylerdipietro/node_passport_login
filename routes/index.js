@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { ensureAuthenticated } = require('../config/auth');
 const mongoose = require('mongoose');
+const User = require('../models/User');
 
 //welcome Page
 router.get('/', (req, res) => res.render('welcome'));
@@ -49,10 +50,26 @@ res.render('profileEditor', {
     email: req.user.email
 }));
 
-router.post('/profile', (req, res) => {
+router.post('/', (req, res) => {
+       updateRecord(req,res);
+       res.get('/profile');
+       res.render('profile',{
+           name: req.user.name
+       });
        
 });
 
+function updateRecord(req, res) {
+    User.findOne({_id:req.user.id},(err,doc)=>{
+     //this will give you the document what you want to update.. then 
+    doc.name = req.body.name;
+    doc.save(function(err,doc){
+
+    });
+    
+});
+    
+}
 
 
 
