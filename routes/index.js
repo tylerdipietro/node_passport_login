@@ -52,11 +52,8 @@ res.render('profileEditor', {
 
 router.post('/', (req, res) => {
        updateRecord(req,res);
-       res.get('/profile');
-       res.render('profile',{
-           name: req.user.name
-       });
-       
+       res.redirect('/profile');
+             
 });
 
 function updateRecord(req, res) {
