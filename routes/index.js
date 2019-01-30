@@ -50,7 +50,7 @@ res.render('profileEditor', {
 }));
 
 router.post('/profile', (req, res) => {
-        updateRecord(req, res);
+       
 });
 
 

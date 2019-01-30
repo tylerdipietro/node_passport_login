@@ -11,7 +11,6 @@ const exphbs = require('express-handlebars');
 var path = require('path');
 var routes = require('./routes/index');
 const bodyparser = require('body-parser');
-var User = require('./models/User');
 
 
 
