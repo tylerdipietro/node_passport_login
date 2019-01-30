@@ -57,8 +57,13 @@ router.post('/', (req, res) => {
 });
 
 function updateRecord(req, res) {
-    User.findOneAndUpdate({ _id: req.body._id }, User.name, { new: true }, (err, doc) => {
+    User.findOneAndUpdate({ "_id": req.body._id },{
+        $set: {
+            "name": req.body.name
+        }
+    }, { new: true }, (err, doc) => {
         if (!err) { 
+            
             console.log(req.user.name);
             console.log(req.body.name);
             res.redirect('/profile'); 
