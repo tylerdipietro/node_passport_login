@@ -52,18 +52,18 @@ res.render('profileEditor', {
     email: req.user.email
 }));
 
-router.post('/', (req, res) => {
+router.post('/profile', (req, res) => {
         updateRecord(req, res);
 });
 
 function updateRecord(req, res) {
     User.findOneAndUpdate({ "_id": req.body._id },{
         $set: {
-            "name": req.body.name
+            name: req.body.name
         }
-    }, { new: true }, (err, doc) => {
+     }, { new: true }, (err, doc) => {
         if (!err) { 
-            
+    
             console.log(req.user.name);
             console.log(req.body.name);
             res.redirect('/profile'); 
@@ -71,8 +71,8 @@ function updateRecord(req, res) {
         else {
             console.log('Error during record update : ' + err);
         }
-    });
-}
+     });
+    }
 
 
 
