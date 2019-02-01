@@ -50,10 +50,17 @@ res.render('profileEditor', {
     email: req.user.email
 }));
 
-router.post('/', (req, res) => {
+router.post('/', ensureAuthenticated, (req, res) => {
+    User.findOneAndUpdate({_id:req.user.id},{name: req.body.name},{new: true},(err,doc)=>{
+         console.log('#### Updated Record ####',doc);
+         res.redirect('/profile');
+    });   
+  });
+
+/* router.post('/', ensureAuthenticated, (req, res) => {
        updateRecord(req,res);
        res.redirect('/profile');
-             
+        
 });
 
 function updateRecord(req, res) {
@@ -61,13 +68,8 @@ function updateRecord(req, res) {
      //this will give you the document what you want to update.. then 
     doc.name = req.body.name;
     doc.save(function(err,doc){
-
-    });
-    
-});
-    
-}
-
-
+    }); 
+});   
+}  */
 
 module.exports = router;

@@ -73,6 +73,7 @@ app.use('/contact', require('./routes/index'));
 app.use('/profile', require('./routes/index'));
 app.use('/profileEditor', require('./routes/index'));
 app.use('/list', require('./routes/index'));
+app.use('/refresh', require('./routes/index'));
 
 const PORT = process.env.PORT || 5000;
 
