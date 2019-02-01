@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { ensureAuthenticated } = require('../config/auth');
 const mongoose = require('mongoose');
-const User = require('../models/user');
+const User = require('../models/player');
 
 //welcome Page
 router.get('/', (req, res) => res.render('welcome'));
@@ -50,26 +50,13 @@ res.render('profileEditor', {
     email: req.user.email
 }));
 
+
+// Update Username
 router.post('/', ensureAuthenticated, (req, res) => {
     User.findOneAndUpdate({_id:req.user.id},{name: req.body.name},{new: true},(err,doc)=>{
          console.log('#### Updated Record ####',doc);
          res.redirect('/profile');
     });   
   });
-
-/* router.post('/', ensureAuthenticated, (req, res) => {
-       updateRecord(req,res);
-       res.redirect('/profile');
-        
-});
-
-function updateRecord(req, res) {
-    User.findOne({_id:req.user.id},(err,doc)=>{
-     //this will give you the document what you want to update.. then 
-    doc.name = req.body.name;
-    doc.save(function(err,doc){
-    }); 
-});   
-}  */
 
 module.exports = router;
