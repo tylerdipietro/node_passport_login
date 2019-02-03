@@ -1,11 +1,12 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require("body-parser");
+var app = express();
 
 var db = require('mongoskin').db("mongodb://tdipietro87:tdipietro87@tmcluster-shard-00-00-pbtwu.mongodb.net:27017,tmcluster-shard-00-01-pbtwu.mongodb.net:27017,tmcluster-shard-00-02-pbtwu.mongodb.net:27017/test?ssl=true&replicaSet=TMCluster-shard-0&authSource=admin&retryWrites=true", { w: 0});
 	db.bind('event');
 
-var app = express();
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
