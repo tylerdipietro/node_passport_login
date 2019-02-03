@@ -18,6 +18,12 @@ router.get('/calendar', ensureAuthenticated, (req, res) =>
         name: req.user.name
     }));
 
+//list view schedule
+router.get('/list', ensureAuthenticated, (req, res) => 
+    res.render('list', {
+        name: req.user.name
+    }));
+
 
 //stats
 router.get('/stats', ensureAuthenticated, (req, res) => 
