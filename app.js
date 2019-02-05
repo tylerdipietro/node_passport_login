@@ -34,7 +34,7 @@ app.use(
   session({
     secret: 'secret',
     resave: true,
-    saveUninitialized: true
+	saveUninitialized: true
   })
 );
 
@@ -76,11 +76,14 @@ app.use('/list', require('./routes/index'));
 app.use('/refresh', require('./routes/index'));
 
 //scheduler all inclusive
-
-
-
-var db = require('mongoskin').db("mongodb://tdipietro87:tdipietro87@tmcluster-shard-00-00-pbtwu.mongodb.net:27017,tmcluster-shard-00-01-pbtwu.mongodb.net:27017,tmcluster-shard-00-02-pbtwu.mongodb.net:27017/test?ssl=true&replicaSet=TMCluster-shard-0&authSource=admin&retryWrites=true", { w: 0});
-	db.bind('event');
+app.get('calendar', function(req, res){
+	req.session.id = req.user.id
+});
+	var db = require('mongoskin').db("mongodb://tdipietro87:tdipietro87@tmcluster-shard-00-00-pbtwu.mongodb.net:27017,tmcluster-shard-00-01-pbtwu.mongodb.net:27017,tmcluster-shard-00-02-pbtwu.mongodb.net:27017/test?ssl=true&replicaSet=TMCluster-shard-0&authSource=admin&retryWrites=true", { w: 0});
+	db.bind('calendar');
+	
+	var Calendar = require('./models/calendar');
+	Calendar.find();
 
 
 		app.use(express.static(path.join(__dirname, 'public')));
@@ -88,22 +91,22 @@ var db = require('mongoskin').db("mongodb://tdipietro87:tdipietro87@tmcluster-sh
 		app.use(bodyParser.urlencoded({ extended: true }));
 
 		app.get('/init', function(req, res){
-			db.event.insert({ 
+			db.calendar.insert({ 
 				text:"My test event A", 
 				start_date: new Date(2018,8,1),
 				end_date:	new Date(2018,8,5)
 			});
-			db.event.insert({ 
+			db.calendar.insert({ 
 				text:"My test event B", 
 				start_date: new Date(2018,8,19),
 				end_date:	new Date(2018,8,24)
 			});
-			db.event.insert({ 
+			db.calendar.insert({ 
 				text:"Morning event", 
 				start_date: new Date(2018,8,4,4,0),
 				end_date:	new Date(2018,8,4,14,0)
 			});
-			db.event.insert({ 
+			db.calendar.insert({ 
 				text:"One more test event", 
 				start_date: new Date(2018,8,3),
 				end_date:	new Date(2018,8,8),
@@ -115,7 +118,7 @@ var db = require('mongoskin').db("mongodb://tdipietro87:tdipietro87@tmcluster-sh
 
 
 		app.get('/data', function(req, res){
-			db.event.find().toArray(function(err, data){
+			db.calendar.find().toArray(function(err, data){
 				//set id property for all records
 				console.log(err);
 				for (var i = 0; i < data.length; i++)
@@ -149,14 +152,19 @@ var db = require('mongoskin').db("mongodb://tdipietro87:tdipietro87@tmcluster-sh
 			}
 
 			if (mode == "updated")
-				db.event.updateById( sid, data, update_response);
+				db.calendar.updateById( sid, data, update_response);
 			else if (mode == "inserted")
-				db.event.insert(data, update_response);
+				db.calendar.insert(data, update_response);
 			else if (mode == "deleted")
-				db.event.removeById( sid, update_response);
+				db.calendar.removeById( sid, update_response);
 			else
 				res.send("Not supported operation");
 		});
+
+
+
+
+		
 
 
 const PORT = process.env.PORT || 5000;
